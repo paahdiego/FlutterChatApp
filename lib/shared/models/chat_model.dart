@@ -1,70 +1,83 @@
-class ChatModel {
-  final String name, lastMessage, image, time;
-  final bool isActive;
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
+import 'package:flutter_chat_app/shared/models/message_model.dart';
+import 'package:flutter_chat_app/shared/models/user_model.dart';
+
+class ChatModel {
+  final String? name;
+  final String? image;
+  final List<UserModel> members = [];
+  final List<MessageModel>? messages;
+  final MessageModel? lastMessage;
   ChatModel({
-    this.name = '',
-    this.lastMessage = '',
-    this.image = '',
-    this.time = '',
-    this.isActive = false,
+    this.name,
+    this.messages,
+    this.image,
+    this.lastMessage,
   });
-  static List<ChatModel> chatsData = [
-    ChatModel(
-      name: "Jenny Wilson",
-      lastMessage: "Hope you are doing well...",
-      image: "assets/images/user.png",
-      time: "3m ago",
-      isActive: false,
-    ),
-    ChatModel(
-      name: "Esther Howard",
-      lastMessage: "Hello Abdullah! I am...",
-      image: "assets/images/user_2.png",
-      time: "8m ago",
-      isActive: true,
-    ),
-    ChatModel(
-      name: "Ralph Edwards",
-      lastMessage: "Do you have update...",
-      image: "assets/images/user_3.png",
-      time: "5d ago",
-      isActive: false,
-    ),
-    ChatModel(
-      name: "Jacob Jones",
-      lastMessage: "You’re welcome :)",
-      image: "assets/images/user_4.png",
-      time: "5d ago",
-      isActive: true,
-    ),
-    ChatModel(
-      name: "Albert Flores",
-      lastMessage: "Thanks",
-      image: "assets/images/user_5.png",
-      time: "6d ago",
-      isActive: false,
-    ),
-    ChatModel(
-      name: "Jenny Wilson",
-      lastMessage: "Hope you are doing well...",
-      image: "assets/images/user.png",
-      time: "3m ago",
-      isActive: false,
-    ),
-    ChatModel(
-      name: "Esther Howard",
-      lastMessage: "Hello Abdullah! I am...",
-      image: "assets/images/user_2.png",
-      time: "8m ago",
-      isActive: true,
-    ),
-    ChatModel(
-      name: "Ralph Edwards",
-      lastMessage: "Do you have update...",
-      image: "assets/images/user_3.png",
-      time: "5d ago",
-      isActive: false,
-    ),
-  ];
+
+  ChatModel copyWith({
+    String? name,
+    List<MessageModel>? messages,
+    String? image,
+    MessageModel? lastMessage,
+  }) {
+    return ChatModel(
+      name: name ?? this.name,
+      messages: messages ?? this.messages,
+      image: image ?? this.image,
+      lastMessage: lastMessage ?? this.lastMessage,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'messages': messages?.map((x) => x.toMap()).toList(),
+      'image': image,
+      'lastMessage': lastMessage?.toMap(),
+    };
+  }
+
+  factory ChatModel.fromMap(Map<String, dynamic> map) {
+    print(map);
+    return ChatModel(
+      name: map['name'],
+      messages: List<MessageModel>.from(
+          map['messages']?.map((x) => MessageModel.fromMap(x))),
+      image: map['image'],
+      lastMessage: MessageModel.fromMap(map['lastMessage']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ChatModel.fromJson(String source) =>
+      ChatModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'ChatModel(name: $name, messages: $messages, image: $image, lastMessage: $lastMessage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ChatModel &&
+        other.name == name &&
+        listEquals(other.messages, messages) &&
+        other.image == image &&
+        other.lastMessage == lastMessage;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        messages.hashCode ^
+        image.hashCode ^
+        lastMessage.hashCode;
+  }
 }

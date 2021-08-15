@@ -7,4 +7,8 @@ class AppColors {
   static const kContentColorDarkTheme = Color(0xFFF5FCF9);
   static const kWarninngColor = Color(0xFFF3BB1C);
   static const kErrorColor = Color(0xFFF03738);
+
+  static const transparent = Color(0x00FFFFFF);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
 }

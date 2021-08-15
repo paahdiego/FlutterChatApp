@@ -1,0 +1,60 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/modules/login/models/login_model.dart';
+import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
+import 'package:flutter_chat_app/shared/auth/auth_repository.dart';
+
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+class LoginController extends ChangeNotifier {
+  //State
+  final stateNotifier = ValueNotifier<LoginState>(LoginState.not_loading);
+  set state(LoginState state) => stateNotifier.value = state;
+  LoginState get state => stateNotifier.value;
+  //Form
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
+  final authRepository = AuthRepository();
+
+  Future<void> login({
+    required BuildContext context,
+  }) async {
+    final authController = AuthController();
+
+    if (formKey.currentState!.validate()) {
+      state = LoginState.loading;
+      notifyListeners();
+      final login = LoginModel(
+        email: emailController.text,
+        password: passController.text,
+      );
+
+      try {
+        final response = await authRepository.login(login);
+        authController.authenticate(response);
+        Navigator.pushReplacementNamed(context, "/home");
+        state = LoginState.not_loading;
+        notifyListeners();
+      } catch (error) {
+        state = LoginState.not_loading;
+        notifyListeners();
+        showTopSnackBar(
+          context,
+          CustomSnackBar.error(
+            backgroundColor: Colors.red,
+            message: "$error",
+          ),
+        );
+      }
+    }
+  }
+}
+
+enum LoginState {
+  loading,
+  not_loading,
+}

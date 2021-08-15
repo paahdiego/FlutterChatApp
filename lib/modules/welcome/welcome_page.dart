@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+    final authController = AuthController();
+    Future.delayed(Duration(seconds: 2), () {
+      authController.isAuthenticated(context);
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -33,36 +39,6 @@ class WelcomePage extends StatelessWidget {
               ),
             ),
             Spacer(flex: 3),
-            FittedBox(
-              child: TextButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, "/signin-or-signup"),
-                child: Row(
-                  children: [
-                    Text(
-                      "Skip",
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .color!
-                                .withOpacity(0.8),
-                          ),
-                    ),
-                    SizedBox(width: sizes.defaultPaddingValue / 4),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(0.8),
-                    )
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),

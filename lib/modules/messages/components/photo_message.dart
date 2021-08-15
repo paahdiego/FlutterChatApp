@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_message_model.dart';
+import 'package:flutter_chat_app/shared/models/message_model.dart';
+
 import 'package:flutter_chat_app/theme/theme.dart';
 
 class PhotoMessage extends StatelessWidget {
@@ -9,7 +10,7 @@ class PhotoMessage extends StatelessWidget {
     required this.message,
   }) : super(key: key);
 
-  final ChatMessageModel message;
+  final MessageModel message;
 
   @override
   Widget build(BuildContext context) {

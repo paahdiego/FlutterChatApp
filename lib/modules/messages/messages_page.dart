@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_chat_app/modules/chats/controllers/chats_controller.dart';
 import 'package:flutter_chat_app/modules/messages/components/body.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/theme/theme.dart';
+import 'package:flutter_chat_app/shared/models/chat_model.dart';
 
 class MessagesPage extends StatelessWidget {
-  const MessagesPage({Key? key}) : super(key: key);
+  const MessagesPage({
+    Key? key,
+    required this.chat,
+    required this.controller,
+  }) : super(key: key);
+  final ChatModel chat;
+  final ChatsController controller;
 
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
     return Scaffold(
       appBar: buildAppBar(sizes),
-      body: MessagesBody(),
+      body: MessagesBody(
+        chat: chat,
+        controller: controller,
+      ),
     );
   }
 
@@ -22,31 +33,24 @@ class MessagesPage extends StatelessWidget {
         children: [
           BackButton(),
           CircleAvatar(
-            backgroundImage: AssetImage(AppImages.user2),
+            backgroundImage: NetworkImage(chat.image!),
           ),
           SizedBox(width: sizes.defaultPaddingValue * 0.75),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Kristin Watson",
+                chat.name ?? "name",
                 style: TextStyle(fontSize: 15),
               ),
-              Text(
+              /* Text(
                 "active 3m ago",
                 style: TextStyle(fontSize: 12),
-              )
+              ) */
             ],
           ),
         ],
       ),
-      actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.local_phone)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.videocam)),
-        SizedBox(
-          width: sizes.defaultPaddingValue * 0.5,
-        ),
-      ],
     );
   }
 }

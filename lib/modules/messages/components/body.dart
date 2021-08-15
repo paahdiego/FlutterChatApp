@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_chat_app/modules/chats/controllers/chats_controller.dart';
 import 'package:flutter_chat_app/modules/messages/components/chat_input_field.dart';
 import 'package:flutter_chat_app/modules/messages/components/message.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_message_model.dart';
+import 'package:flutter_chat_app/shared/models/chat_model.dart';
 
 class MessagesBody extends StatelessWidget {
-  const MessagesBody({Key? key}) : super(key: key);
+  const MessagesBody({
+    Key? key,
+    required this.chat,
+    // required this.controller,
+  }) : super(key: key);
+  final ChatModel chat;
+  // final ChatsController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +25,18 @@ class MessagesBody extends StatelessWidget {
             padding:
                 EdgeInsets.symmetric(horizontal: sizes.defaultPaddingValue),
             child: ListView.builder(
-              itemCount: ChatMessageModel.demoChatMessages.length,
+              itemCount: chat.messages!.length,
               itemBuilder: (context, index) => Message(
-                message: ChatMessageModel.demoChatMessages[index],
+                message: chat.messages![index],
               ),
             ),
           ),
         ),
-        ChatInputField(),
+        ChatInputField(
+          onSubmitted: (message) {
+            // controller.chatsRepository.sendMessage(message, chat);
+          },
+        ),
       ],
     );
   }
