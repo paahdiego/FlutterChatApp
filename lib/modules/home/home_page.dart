@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/modules/chats/chats_page.dart';
 import 'package:flutter_chat_app/modules/home/controllers/home_controller.dart';
+import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
 import 'package:flutter_chat_app/theme/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,6 +45,11 @@ class _HomePageState extends State<HomePage> {
           selectedIndex = index;
         });
         homeController.setView(selectedIndex);
+        if (index == 2) {
+          final authController = AuthController();
+          authController.logout().then((value) =>
+              Navigator.pushReplacementNamed(context, "/welcome-page"));
+        }
       },
       items: [
         BottomNavigationBarItem(icon: Icon(Icons.messenger), label: "Chats"),

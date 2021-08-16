@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app/modules/messages/components/audio_message.dart';
-
-import 'package:flutter_chat_app/modules/messages/components/photo_message.dart';
 import 'package:flutter_chat_app/modules/messages/components/text_message.dart';
-import 'package:flutter_chat_app/modules/messages/components/video_message.dart';
 import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-
 import 'package:flutter_chat_app/shared/models/message_model.dart';
 import 'package:flutter_chat_app/shared/models/user_model.dart';
-import 'package:flutter_chat_app/theme/theme.dart';
 
 class Message extends StatefulWidget {
   const Message({
@@ -43,12 +37,6 @@ class _MessageState extends State<Message> {
 
   Widget messageContaint(MessageModel message) {
     switch (message.messageType) {
-      case MessageType.audio:
-        return AudioMessage(message: message);
-      case MessageType.image:
-        return PhotoMessage(message: message);
-      case MessageType.video:
-        return VideoMessage(message: message);
       default:
         return TextMessage(
           message: message,

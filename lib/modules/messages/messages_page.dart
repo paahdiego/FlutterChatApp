@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_chat_app/modules/chats/controllers/chats_controller.dart';
 import 'package:flutter_chat_app/modules/messages/components/body.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
 import 'package:flutter_chat_app/shared/models/chat_model.dart';
@@ -9,10 +8,8 @@ class MessagesPage extends StatelessWidget {
   const MessagesPage({
     Key? key,
     required this.chat,
-    required this.controller,
   }) : super(key: key);
   final ChatModel chat;
-  final ChatsController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,6 @@ class MessagesPage extends StatelessWidget {
       appBar: buildAppBar(sizes),
       body: MessagesBody(
         chat: chat,
-        controller: controller,
       ),
     );
   }
@@ -43,10 +39,6 @@ class MessagesPage extends StatelessWidget {
                 chat.name ?? "name",
                 style: TextStyle(fontSize: 15),
               ),
-              /* Text(
-                "active 3m ago",
-                style: TextStyle(fontSize: 12),
-              ) */
             ],
           ),
         ],
