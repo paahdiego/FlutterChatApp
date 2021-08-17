@@ -16,11 +16,11 @@ class AuthRepository {
         body: credentials.toMap(),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return AuthModel.fromJson(response.body);
       } else {
         final error = jsonDecode(response.body);
-        throw "${error["status"]}: ${error["message"]}";
+        throw "${response.statusCode}: ${error["message"]}";
       }
     } catch (error) {
       throw Exception(error);

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/modules/login/models/login_model.dart';
 import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
@@ -13,6 +11,17 @@ class LoginController extends ChangeNotifier {
   final stateNotifier = ValueNotifier<LoginState>(LoginState.not_loading);
   set state(LoginState state) => stateNotifier.value = state;
   LoginState get state => stateNotifier.value;
+
+  void startLoading() {
+    state = LoginState.loading;
+    notifyListeners();
+  }
+
+  void stopLoading() {
+    state = LoginState.not_loading;
+    notifyListeners();
+  }
+
   //Form
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -26,8 +35,8 @@ class LoginController extends ChangeNotifier {
     final authController = AuthController();
 
     if (formKey.currentState!.validate()) {
-      state = LoginState.loading;
-      notifyListeners();
+      startLoading();
+
       final login = LoginModel(
         email: emailController.text,
         password: passController.text,
@@ -36,12 +45,10 @@ class LoginController extends ChangeNotifier {
       try {
         final response = await authRepository.login(login);
         authController.authenticate(response);
+        stopLoading();
         Navigator.pushReplacementNamed(context, "/home");
-        state = LoginState.not_loading;
-        notifyListeners();
       } catch (error) {
-        state = LoginState.not_loading;
-        notifyListeners();
+        stopLoading();
         showTopSnackBar(
           context,
           CustomSnackBar.error(

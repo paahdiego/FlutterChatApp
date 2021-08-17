@@ -7,7 +7,7 @@ class ChatsController extends ChangeNotifier {
   final chatsRepository = ChatsRepository();
 
   ChatsController() {
-    fetch();
+    // fetch();
   }
 
   void fetch() async {

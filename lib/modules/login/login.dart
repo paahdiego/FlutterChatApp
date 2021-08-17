@@ -43,8 +43,9 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FlutterLogo(
-                      size: sizes.displayWidth * 0.6,
+                    Image.asset(
+                      AppImages.logoDark,
+                      width: sizes.displayWidth * 0.5,
                     ),
                     SizedBox(height: sizes.defaultPaddingValue * 4),
                     Container(
@@ -106,36 +107,59 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           SizedBox(height: sizes.defaultPaddingValue * 2),
-                          TextButton(
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0.0),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: sizes.defaultBorderRadius),
+                          Container(
+                            width: sizes.defaultWidgetWidth,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all(0.0),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: sizes.defaultBorderRadius),
+                                ),
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 40),
+                                ),
+                                overlayColor: MaterialStateProperty.all(
+                                    AppColors.kPrimaryColor),
+                                backgroundColor: MaterialStateProperty.all(
+                                    AppColors.kPrimaryColor),
+                                foregroundColor:
+                                    MaterialStateProperty.all(AppColors.white),
                               ),
-                              padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 40),
-                              ),
-                              overlayColor: MaterialStateProperty.all(
-                                  AppColors.kPrimaryColor),
-                              backgroundColor: MaterialStateProperty.all(
-                                  AppColors.kPrimaryColor),
-                              foregroundColor:
-                                  MaterialStateProperty.all(AppColors.white),
+                              onPressed: () async {
+                                await loginController.login(context: context);
+                              },
+                              child: loginController.state != LoginState.loading
+                                  ? Text(
+                                      "Login",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    )
+                                  : SizedBox(
+                                      width: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .fontSize! +
+                                          3,
+                                      height: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1!
+                                              .fontSize! +
+                                          3,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3.0,
+                                        valueColor: AlwaysStoppedAnimation(
+                                          AppColors.white,
+                                        ),
+                                      ),
+                                    ),
                             ),
-                            onPressed: () async {
-                              await loginController.login(context: context);
-                            },
-                            child: loginController.state != LoginState.loading
-                                ? Text(
-                                    "Login",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1!
-                                        .copyWith(color: Colors.white),
-                                  )
-                                : CircularProgressIndicator(),
                           )
                         ],
                       ),
