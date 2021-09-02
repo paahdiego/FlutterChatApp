@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_chat_app/modules/chats/controllers/chats_controller.dart';
 import 'package:flutter_chat_app/modules/messages/components/chat_input_field.dart';
-import 'package:flutter_chat_app/modules/messages/components/message.dart';
+
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
+import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
 
 class MessagesBody extends StatelessWidget {
   const MessagesBody({
@@ -20,7 +19,7 @@ class MessagesBody extends StatelessWidget {
     final sizes = AppSizes(context);
     return Column(
       children: [
-        Expanded(
+        /* Expanded(
           child: Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: sizes.defaultPaddingValue),
@@ -31,7 +30,7 @@ class MessagesBody extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ), */
         ChatInputField(
           onSubmitted: (message) {
             // controller.chatsRepository.sendMessage(message, chat);

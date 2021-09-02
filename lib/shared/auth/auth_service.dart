@@ -5,7 +5,7 @@ import 'package:flutter_chat_app/shared/auth/auth_model.dart';
 import 'package:flutter_chat_app/shared/config/connection.dart';
 import 'package:http/http.dart' as http;
 
-class AuthRepository {
+class AuthService {
   Future<AuthModel> login(LoginModel credentials) async {
     final uri = getUri("auth/login");
     print(uri.toString());

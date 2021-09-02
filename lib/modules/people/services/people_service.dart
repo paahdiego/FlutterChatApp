@@ -1,16 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_chat_app/modules/people/models/person_model.dart';
 import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
 import 'package:flutter_chat_app/shared/config/connection.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
-import 'package:flutter_chat_app/shared/models/message_model.dart';
 import 'package:http/http.dart' as http;
 
-class ChatsRepository {
+class PeopleService {
   final authController = AuthController();
 
-  Future<List<ChatModel>> list() async {
-    final uri = getUri('/chats');
+  Future<List<PersonModel>> list() async {
+    final uri = getUri('/users');
 
     try {
       print(uri.toString());
@@ -22,9 +21,9 @@ class ChatsRepository {
         case 200:
           final json = jsonDecode(response.body);
 
-          List<ChatModel> list = (json as List).map(
+          final list = (json as List).map(
             (e) {
-              return ChatModel.fromMap(e);
+              return PersonModel.fromMap(e);
             },
           ).toList();
 

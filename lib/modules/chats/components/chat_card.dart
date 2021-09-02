@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
-import 'package:flutter_chat_app/theme/theme.dart';
+import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
@@ -15,6 +16,7 @@ class ChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+    log(chat.toString());
     return InkWell(
       onTap: onPressed,
       child: Padding(
@@ -24,23 +26,17 @@ class ChatCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            chat.image != null
-                ? CircleAvatar(
-                    radius: 24,
-                    backgroundImage: NetworkImage(chat.image!),
-                  )
-                : CircleAvatar(
-                    radius: 24,
-                    backgroundColor: AppColors.kPrimaryColor,
-                    //backgroundImage: AssetImage(chat.image),
-                  ),
+            CircleAvatar(
+              radius: 24,
+              backgroundImage: NetworkImage(chat.members[1].avatarUrl!),
+            ),
             SizedBox(width: sizes.defaultPaddingValue),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    chat.name!,
+                    chat.members[1].name!,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

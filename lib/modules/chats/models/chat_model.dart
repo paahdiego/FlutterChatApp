@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
@@ -6,48 +7,53 @@ import 'package:flutter_chat_app/shared/models/message_model.dart';
 import 'package:flutter_chat_app/shared/models/user_model.dart';
 
 class ChatModel {
+  final String? id;
   final String? name;
   final String? image;
-  final List<UserModel> members = [];
-  final List<MessageModel>? messages;
+  final List<UserModel> members;
   final MessageModel? lastMessage;
+
   ChatModel({
+    this.id,
     this.name,
-    this.messages,
     this.image,
+    required this.members,
     this.lastMessage,
   });
 
   ChatModel copyWith({
+    String? id,
     String? name,
-    List<MessageModel>? messages,
     String? image,
+    List<UserModel>? members,
     MessageModel? lastMessage,
   }) {
     return ChatModel(
+      id: id ?? this.id,
       name: name ?? this.name,
-      messages: messages ?? this.messages,
       image: image ?? this.image,
+      members: members ?? this.members,
       lastMessage: lastMessage ?? this.lastMessage,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
-      'messages': messages?.map((x) => x.toMap()).toList(),
       'image': image,
+      'members': members.map((x) => x.toMap()).toList(),
       'lastMessage': lastMessage?.toMap(),
     };
   }
 
   factory ChatModel.fromMap(Map<String, dynamic> map) {
-    print(map);
     return ChatModel(
+      id: map['id'],
       name: map['name'],
-      messages: List<MessageModel>.from(
-          map['messages']?.map((x) => MessageModel.fromMap(x))),
       image: map['image'],
+      members: List<UserModel>.from(
+          map['members']?.map((x) => UserModel.fromMap(x))),
       lastMessage: MessageModel.fromMap(map['lastMessage']),
     );
   }
@@ -59,7 +65,7 @@ class ChatModel {
 
   @override
   String toString() {
-    return 'ChatModel(name: $name, messages: $messages, image: $image, lastMessage: $lastMessage)';
+    return 'ChatModel(id: $id, name: $name, image: $image, members: $members, lastMessage: $lastMessage)';
   }
 
   @override
@@ -67,17 +73,19 @@ class ChatModel {
     if (identical(this, other)) return true;
 
     return other is ChatModel &&
+        other.id == id &&
         other.name == name &&
-        listEquals(other.messages, messages) &&
         other.image == image &&
+        listEquals(other.members, members) &&
         other.lastMessage == lastMessage;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^
-        messages.hashCode ^
+    return id.hashCode ^
+        name.hashCode ^
         image.hashCode ^
+        members.hashCode ^
         lastMessage.hashCode;
   }
 }

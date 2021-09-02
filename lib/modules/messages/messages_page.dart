@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_chat_app/modules/messages/components/body.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
+import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({

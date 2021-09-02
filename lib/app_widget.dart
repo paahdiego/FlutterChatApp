@@ -4,7 +4,7 @@ import 'package:flutter_chat_app/modules/home/home_page.dart';
 import 'package:flutter_chat_app/modules/login/login.dart';
 import 'package:flutter_chat_app/modules/messages/messages_page.dart';
 import 'package:flutter_chat_app/modules/welcome/welcome_page.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
+import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
 import 'package:flutter_chat_app/theme/theme.dart';
 
 class AppWidget extends StatelessWidget {
@@ -20,7 +20,7 @@ class AppWidget extends StatelessWidget {
         "/welcome-page": (context) => WelcomePage(),
         "/login": (context) => LoginPage(),
         "/home": (context) => HomePage(),
-        "/chats/messages": (context) => MessagesPage(
+        "/home/chats/messages": (context) => MessagesPage(
               chat: (ModalRoute.of(context)!.settings.arguments as ChatModel),
             ),
       },

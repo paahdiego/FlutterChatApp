@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/modules/login/models/login_model.dart';
 import 'package:flutter_chat_app/shared/auth/auth_controller.dart';
-import 'package:flutter_chat_app/shared/auth/auth_repository.dart';
+import 'package:flutter_chat_app/shared/auth/auth_service.dart';
 
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -27,7 +27,7 @@ class LoginController extends ChangeNotifier {
   final emailController = TextEditingController();
   final passController = TextEditingController();
 
-  final authRepository = AuthRepository();
+  final authRepository = AuthService();
 
   Future<void> login({
     required BuildContext context,
@@ -46,7 +46,10 @@ class LoginController extends ChangeNotifier {
         final response = await authRepository.login(login);
         authController.authenticate(response);
         stopLoading();
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushReplacementNamed(
+          context,
+          "/home",
+        );
       } catch (error) {
         stopLoading();
         showTopSnackBar(

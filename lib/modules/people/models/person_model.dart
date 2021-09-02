@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
 
-class UserModel {
+class PersonModel {
   final String? id;
   final String? name;
   final String? email;
   final String? avatarUrl;
   final String? phone;
-  UserModel({
+  PersonModel({
     this.id,
     this.name,
     this.email,
@@ -25,8 +24,8 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory PersonModel.fromMap(Map<String, dynamic> map) {
+    return PersonModel(
       id: map['_id'],
       name: map['name'],
       email: map['email'],
@@ -37,11 +36,11 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory PersonModel.fromJson(String source) =>
+      PersonModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, avatarUrl: $avatarUrl, phone: $phone)';
+    return 'PersonModel(id: $id, name: $name, email: $email, avatarUrl: $avatarUrl, phone: $phone)';
   }
 }

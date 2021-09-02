@@ -28,21 +28,18 @@ class _MessageState extends State<Message> {
   }
 
   Future getUser() async {
-    user = await authController.getUser();
+    /* user = await authController.getUser();
     if (user.email == widget.message.sender!.email) {
       isSender = true;
       setState(() {});
-    }
+    } */
   }
 
   Widget messageContaint(MessageModel message) {
-    switch (message.messageType) {
-      default:
-        return TextMessage(
-          message: message,
-          isSender: isSender,
-        );
-    }
+    return TextMessage(
+      message: message,
+      isSender: isSender,
+    );
   }
 
   @override
@@ -57,10 +54,10 @@ class _MessageState extends State<Message> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (!isSender) ...[
-            CircleAvatar(
+            /* CircleAvatar(
               radius: 12,
               backgroundImage: NetworkImage(widget.message.sender!.avatarUrl!),
-            ),
+            ), */
             SizedBox(width: sizes.defaultPaddingValue / 2),
           ],
           messageContaint(widget.message),

@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/modules/chats/components/chat_card.dart';
-import 'package:flutter_chat_app/modules/chats/controllers/chats_controller.dart';
+
+import 'package:flutter_chat_app/modules/home/controllers/home_controller.dart';
 
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
 
 import 'package:flutter_chat_app/theme/theme.dart';
 
 class ChatsPage extends StatefulWidget {
-  const ChatsPage({Key? key}) : super(key: key);
+  const ChatsPage({Key? key, required this.homeController}) : super(key: key);
+  final HomeController homeController;
 
   @override
   _ChatsPageState createState() => _ChatsPageState();
 }
 
 class _ChatsPageState extends State<ChatsPage> {
-  final chatsController = ChatsController();
   @override
   void initState() {
-    chatsController.addListener(() {
-      setState(() {});
-    });
+    widget.homeController.loadChats();
     super.initState();
   }
 
@@ -33,13 +32,14 @@ class _ChatsPageState extends State<ChatsPage> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => ChatCard(
-                  chat: chatsController.chats[index],
-                  onPressed: () => Navigator.pushNamed(
-                    context,
-                    "/chats/messages",
-                  ),
-                ),
-                itemCount: chatsController.chats.length,
+                    chat: widget.homeController.chats[index],
+                    onPressed: () {
+                      /* Navigator.pushNamed(
+                        context,
+                        "/home/chats/messages",
+                      ); */
+                    }),
+                itemCount: widget.homeController.chats.length,
               ),
             )
           ],
@@ -48,9 +48,7 @@ class _ChatsPageState extends State<ChatsPage> {
           bottom: sizes.defaultPaddingValue,
           right: sizes.defaultPaddingValue,
           child: FloatingActionButton(
-            onPressed: () {
-              chatsController.fetch();
-            },
+            onPressed: () {},
             backgroundColor: AppColors.kPrimaryColor,
             child: Icon(
               Icons.person_add_alt_1,
