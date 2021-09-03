@@ -7,9 +7,9 @@
   <h3 align="center">Flutter Chat App</h3>
 
   <p align="center">
-    Flutter Chat App is a Flutter Chat App Template used to test real chat functionallity.
+    Flutter Chat App is a Flutter Chat App Template used to test real chat functionallity using HTTP. Later I'll be trying to make it work with websockets.
     <br />
-  </p>
+   </p>
 </p>
 <!-- TABLE OF CONTENTS -->
 <details open="close">
