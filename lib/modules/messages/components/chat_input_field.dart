@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/shared/components/primary_button.dart';
+
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
 import 'package:flutter_chat_app/theme/theme.dart';
 
 class ChatInputField extends StatelessWidget {
   const ChatInputField({
     Key? key,
+    this.onSubmitted,
   }) : super(key: key);
+
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+    final controller = TextEditingController();
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: sizes.defaultPaddingValue,
@@ -21,11 +27,6 @@ class ChatInputField extends StatelessWidget {
       child: SafeArea(
         child: Row(
           children: [
-            Icon(
-              Icons.mic,
-              color: AppColors.kPrimaryColor,
-            ),
-            SizedBox(width: sizes.defaultPaddingValue),
             Expanded(
               child: Container(
                 height: 50,
@@ -43,46 +44,23 @@ class ChatInputField extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.sentiment_satisfied_alt_outlined,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(0.64),
-                    ),
-                    SizedBox(width: sizes.defaultPaddingValue * 0.25),
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Type message",
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      Icons.attach_file,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(0.64),
-                    ),
-                    SizedBox(width: sizes.defaultPaddingValue * 0.25),
-                    Icon(
-                      Icons.camera_alt_outlined,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .color!
-                          .withOpacity(0.64),
-                    ),
-                  ],
+                child: TextFormField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: "Type message",
+                    border: InputBorder.none,
+                  ),
+                  onFieldSubmitted: onSubmitted,
+                  textInputAction: TextInputAction.done,
                 ),
               ),
             ),
+            IconButton(
+                onPressed: () {
+                  if (this.onSubmitted != null)
+                    this.onSubmitted!(controller.text);
+                },
+                icon: Icon(Icons.send))
           ],
         ),
       ),

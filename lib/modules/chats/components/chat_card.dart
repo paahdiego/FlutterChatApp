@@ -1,20 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+
+import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
+import 'package:flutter_chat_app/modules/home/controllers/home_controller.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/shared/models/chat_model.dart';
-import 'package:flutter_chat_app/theme/theme.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
     Key? key,
     required this.chat,
     required this.onPressed,
+    required this.homeController,
   }) : super(key: key);
   final ChatModel chat;
   final VoidCallback onPressed;
+  final HomeController homeController;
 
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+    log(chat.toString());
+    int sender = 1;
+    if (homeController.loggedUser.id == chat.members[1].id) sender = 0;
+
     return InkWell(
       onTap: onPressed,
       child: Padding(
@@ -24,30 +33,9 @@ class ChatCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundImage: AssetImage(chat.image),
-                ),
-                if (chat.isActive)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 16,
-                      width: 16,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.kPrimaryColor,
-                        border: Border.all(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          width: 3,
-                        ),
-                      ),
-                    ),
-                  )
-              ],
+            CircleAvatar(
+              radius: 24,
+              backgroundImage: NetworkImage(chat.members[sender].avatarUrl!),
             ),
             SizedBox(width: sizes.defaultPaddingValue),
             Expanded(
@@ -55,7 +43,7 @@ class ChatCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    chat.name,
+                    chat.members[sender].name!,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -65,7 +53,7 @@ class ChatCard extends StatelessWidget {
                   Opacity(
                     opacity: 0.64,
                     child: Text(
-                      chat.lastMessage,
+                      chat.lastMessage!.text,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -75,7 +63,7 @@ class ChatCard extends StatelessWidget {
             ),
             Opacity(
               opacity: 0.64,
-              child: Text(chat.time),
+              child: Text("1m ago"),
             ),
           ],
         ),
