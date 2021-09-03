@@ -32,13 +32,16 @@ class _ChatsPageState extends State<ChatsPage> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => ChatCard(
-                    chat: widget.homeController.chats[index],
-                    onPressed: () {
-                      /* Navigator.pushNamed(
-                        context,
-                        "/home/chats/messages",
-                      ); */
-                    }),
+                  chat: widget.homeController.chats[index],
+                  homeController: widget.homeController,
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      "/home/chats/messages",
+                      arguments: widget.homeController.chats[index],
+                    );
+                  },
+                ),
                 itemCount: widget.homeController.chats.length,
               ),
             )

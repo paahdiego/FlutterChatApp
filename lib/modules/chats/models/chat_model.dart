@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:flutter_chat_app/shared/models/message_model.dart';
+import 'package:flutter_chat_app/modules/messages/models/message_model.dart';
 import 'package:flutter_chat_app/shared/models/user_model.dart';
 
 class ChatModel {
@@ -39,7 +38,7 @@ class ChatModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': id,
       'name': name,
       'image': image,
       'members': members.map((x) => x.toMap()).toList(),
@@ -49,7 +48,7 @@ class ChatModel {
 
   factory ChatModel.fromMap(Map<String, dynamic> map) {
     return ChatModel(
-      id: map['id'],
+      id: map['_id'],
       name: map['name'],
       image: map['image'],
       members: List<UserModel>.from(

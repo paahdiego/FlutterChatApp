@@ -44,6 +44,7 @@ class LoginController extends ChangeNotifier {
 
       try {
         final response = await authRepository.login(login);
+        print(response);
         authController.authenticate(response);
         stopLoading();
         Navigator.pushReplacementNamed(

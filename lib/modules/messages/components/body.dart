@@ -1,39 +1,53 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_chat_app/modules/messages/components/chat_input_field.dart';
-
+import 'package:flutter_chat_app/modules/messages/components/message.dart';
+import 'package:flutter_chat_app/modules/messages/controllers/messages_controller.dart';
+import 'package:flutter_chat_app/modules/messages/models/message_model.dart';
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
-import 'package:flutter_chat_app/modules/chats/models/chat_model.dart';
 
-class MessagesBody extends StatelessWidget {
+class MessagesBody extends StatefulWidget {
   const MessagesBody({
     Key? key,
-    required this.chat,
-    // required this.controller,
+    required this.controller,
   }) : super(key: key);
-  final ChatModel chat;
-  // final ChatsController controller;
 
+  final MessageController controller;
+
+  @override
+  _MessagesBodyState createState() => _MessagesBodyState();
+}
+
+class _MessagesBodyState extends State<MessagesBody> {
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+
     return Column(
       children: [
-        /* Expanded(
+        Expanded(
           child: Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: sizes.defaultPaddingValue),
             child: ListView.builder(
-              itemCount: chat.messages!.length,
+              itemCount: widget.controller.messages.length,
               itemBuilder: (context, index) => Message(
-                message: chat.messages![index],
+                message: widget.controller.messages[index],
+                sender: widget.controller.sender,
               ),
             ),
           ),
-        ), */
+        ),
         ChatInputField(
           onSubmitted: (message) {
-            // controller.chatsRepository.sendMessage(message, chat);
+            final newMessage = MessageModel(
+              text: message,
+              sender: widget.controller.sender,
+              receiver: widget.controller.receiver,
+              chat: widget.controller.chat.id!,
+            );
+
+            widget.controller.createMessage(message: newMessage);
           },
         ),
       ],

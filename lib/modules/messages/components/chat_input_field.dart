@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/shared/components/primary_button.dart';
 
 import 'package:flutter_chat_app/shared/config/app_sizes.dart';
 import 'package:flutter_chat_app/theme/theme.dart';
@@ -9,11 +10,12 @@ class ChatInputField extends StatelessWidget {
     this.onSubmitted,
   }) : super(key: key);
 
-  final Function(String)? onSubmitted;
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
     final sizes = AppSizes(context);
+    final controller = TextEditingController();
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: sizes.defaultPaddingValue,
@@ -42,16 +44,23 @@ class ChatInputField extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: TextField(
+                child: TextFormField(
+                  controller: controller,
                   decoration: InputDecoration(
                     hintText: "Type message",
                     border: InputBorder.none,
                   ),
-                  onSubmitted: onSubmitted,
+                  onFieldSubmitted: onSubmitted,
                   textInputAction: TextInputAction.done,
                 ),
               ),
             ),
+            IconButton(
+                onPressed: () {
+                  if (this.onSubmitted != null)
+                    this.onSubmitted!(controller.text);
+                },
+                icon: Icon(Icons.send))
           ],
         ),
       ),
